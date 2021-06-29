@@ -13,6 +13,9 @@
           <a class="nav-link @if (Request::route()->getName() === 'fumetti.index') active @endif" href="{{route('fumetti.index')}}">COMICS</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link @if (Request::route()->getName() === 'fumetti.create') active @endif" href="{{route('fumetti.create')}}">CREA IL TUO SUPEREROE</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="#">MOVIES</a>
         </li>
         <li class="nav-item">

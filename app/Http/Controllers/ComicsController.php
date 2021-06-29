@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Fumetto;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class ComicsController extends Controller
@@ -13,7 +15,10 @@ class ComicsController extends Controller
      */
     public function index()
     {
-        return view('fumetti.index');
+
+        $fumettos = Fumetto::paginate(5);
+
+        return view('comics.index',compact('fumettos'));
     }
 
     /**
@@ -23,7 +28,9 @@ class ComicsController extends Controller
      */
     public function create()
     {
-        //
+        
+        return view('comics.create');
+
     }
 
     /**
@@ -34,7 +41,25 @@ class ComicsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $new_comic = new Fumetto();
+
+/*         $new_comic->title = $data['title'];
+        $new_comic->description = $data['description'];
+        $new_comic->image = $data['image'];            
+        $new_comic->series = $data['series'];
+        $new_comic->price = $data['price'];
+        $new_comic->type = $data['type'];
+        $new_comic->date = $data['date'];
+        $new_comic->slug = Str::slug($data['title'], '-'); */
+        
+        $data['slug'] = Str::slug($data['title'], '-');
+        $new_comic->fill($data);
+
+        $new_comic->save();
+        
+        return redirect()->route('fumetti.show',$new_comic);
     }
 
     /**
@@ -45,7 +70,16 @@ class ComicsController extends Controller
      */
     public function show($id)
     {
-        //
+        //$fumetto = Fumetto::where('slug',$slug)->first();
+        $fumetto = Fumetto::find($id);
+
+        if($fumetto){
+            
+            return view('comics.show',compact('fumetto'));
+
+        }
+        abort(404);
+       
     }
 
     /**
