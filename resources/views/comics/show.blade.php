@@ -18,6 +18,8 @@
 
                 <p> {!! $fumetto->description !!} </p>
 
+                <p> Prezzo: {{ $fumetto->price }} </p>
+
             </div>
 
         </div>

@@ -4,6 +4,16 @@
 
     <h1>COMICS</h1>
 
+    @if (session('deleted'))
+
+        <div class="alert alert-danger" role="alert">
+          
+            <strong>{{session('deleted')}}</strong> eliminato correttamente
+
+        </div>
+
+    @endif
+
     <section class="container">
 
         <table class="table table-dark">
@@ -24,8 +34,18 @@
                 <td>{{$fumetto->series}}</td>
                 <td>{{$fumetto->price}}</td>
                 <td><a href="{{ route('fumetti.show',$fumetto->id) }}" class="btn btn-info">SHOW</a></td>
-                <td><a href="{{ route('fumetti.create',$fumetto->id) }}" class="btn btn-info">EDIT</a></td>
-                <td><a href="{{ route('fumetti.destroy',$fumetto->id) }}" class="btn btn-info">DELETE</a></td>
+                <td><a href="{{ route('fumetti.edit',$fumetto) }}" class="btn btn-info">EDIT</a></td>
+                <td>
+                    <form action="{{ route('fumetti.destroy',$fumetto) }}" method="POST">
+                    
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit" class="btn btn-danger">DELETE</button>
+
+
+                    </form>
+                </td>
               </tr>
 
               @endforeach 

@@ -90,7 +90,16 @@ class ComicsController extends Controller
      */
     public function edit($id)
     {
-        //
+        
+        $fumetto = Fumetto::find($id);
+
+        if($fumetto){
+            
+            return view('comics.edit',compact('fumetto'));
+
+        }
+        abort(404);
+
     }
 
     /**
@@ -102,7 +111,11 @@ class ComicsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $data['slug'] = Str::slug($data['title'], '-');
+        $fumetto = Fumetto::find($id);
+        $fumetto->update($data);
+        return redirect()->route('fumetti.show',$fumetto);
     }
 
     /**
@@ -113,6 +126,9 @@ class ComicsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        $fumetto= Fumetto::find($id);
+        $fumetto->delete();
+        return redirect()->route('fumetti.index')->with('deleted',$fumetto->title);
     }
 }
